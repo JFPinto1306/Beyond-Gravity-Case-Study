@@ -57,7 +57,7 @@ docker-compose up --build
   - `GET /earthquakes/{id}`: Get details of a specific earthquake.
 
 
-## 5. Walkthrough
+## Walkthrough
 ### Fetching Earthquake Data
   - The service retrieves daily earthquake data from the USGS API and stores it in the PostgreSQL database.
   - The fetching logic is implemented in `app/usgs.py` and runs every 10 seconds as a background task.
@@ -79,3 +79,25 @@ docker-compose up --build
 - The entire application is containerized using Docker. The `docker-compose.yml` file sets up both the FastAPI application and the PostgreSQL database.
 - Environment variables for database connection are managed via a `.env` file.
 - Uvicorn is used as the ASGI server to run the FastAPI application.
+
+## Running Tests
+
+Tests are located in the `app/tests` directory and cover both **database operations** and **API endpoints**.  
+
+### Database Tests
+- **`test_save_records_new`**: Inserts new earthquake records into the database successfully.
+- **`test_save_records_duplicates`**: Ensures duplicate records are not inserted.
+
+### API Tests
+- **`test_get_earthquakes_basic`**: Fetches a list of recent earthquakes.
+- **`test_get_earthquake_by_id`**: Fetches details of a specific earthquake by its ID.
+- **`test_unknown_query_param`**: Validates that the API returns a **400 Bad Request** for unexpected query parameters.
+
+### Running Tests
+Run the tests inside the Docker container using:
+
+```bash
+docker compose run --rm -e PYTHONPATH=/app app pytest tests/ -v
+```
+
+

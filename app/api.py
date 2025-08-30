@@ -1,12 +1,12 @@
 from datetime import datetime
-import fastapi
+from fastapi import FastAPI, Query, Request, HTTPException
 from typing import List, Literal, Optional
 from db import get_connection, create_table, save_records
 from usgs import fetch_usgs
 import asyncio
 import logging
 
-app = fastapi.FastAPI(title="Earthquake API")
+app = FastAPI(title="Earthquake API")
 logging.basicConfig(level=logging.INFO)
 
 
@@ -71,19 +71,28 @@ def read_root():
     return {"message": "Welcome to the Earthquake API. Please refer to /docs for API documentation."}
 
 @app.get("/earthquakes", response_model=List[dict])
-def get_earthquakes(request: fastapi.Request, limit: int = 100,min_mag: Optional[float] = None,start_time: Optional[datetime] = None,end_time: Optional[datetime] = None):
-    try:
-        received_params = set(request.query_params.keys())
-        unknown_params = received_params - ALLOWED_PARAMS
-        if unknown_params:
-            raise fastapi.HTTPException(
-                status_code=400,
-                detail=f"Unexpected query parameter(s): {', '.join(unknown_params)}. Please use only the allowed parameters: {', '.join(ALLOWED_PARAMS)}."
-            )
+def get_earthquakes(
+    request: Request,
+    limit: int = 100,
+    min_mag: Optional[float] = None,
+    start_time: Optional[datetime] = None,
+    end_time: Optional[datetime] = None
+):
+    received_params = set(request.query_params.keys())
+    unknown_params = received_params - ALLOWED_PARAMS
+    if unknown_params:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Unexpected query parameter(s): {', '.join(unknown_params)}. "
+                   f"Please use only the allowed parameters: {', '.join(ALLOWED_PARAMS)}."
+        )
 
-        return fetch_earthquakes_from_db(limit=limit,min_mag=min_mag,start_time=start_time,end_time=end_time)
-    except Exception as e:
-        raise fastapi.HTTPException(status_code=500, detail=str(e))
+    return fetch_earthquakes_from_db(
+        limit=limit,
+        min_mag=min_mag,
+        start_time=start_time,
+        end_time=end_time
+    )
 
 @app.get("/earthquakes/{eq_id}", response_model=dict)
 def get_earthquake(eq_id: str):
@@ -95,7 +104,7 @@ def get_earthquake(eq_id: str):
     conn.close()
     
     if not row:
-        raise fastapi.HTTPException(status_code=404, detail="Earthquake not found")
+        raise HTTPException(status_code=404, detail="Earthquake not found")
     
     return {
         "id": row[0],
