@@ -27,7 +27,7 @@ It was built as part of a **Junior Backend case study** for Beyond Gravity.
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/Beyond-Gravity-Case-Study.git
+git clone https://github.com/JFPinto1306/Beyond-Gravity-Case-Study.git
 cd Beyond-Gravity-Case-Study
 ```
 
