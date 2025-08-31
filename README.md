@@ -48,8 +48,7 @@ docker-compose up --build
   - `GET /earthquakes/{id}`: Get details of a specific earthquake.
  
 > **Note on `.env` file**:  
-> Normally, committing a `.env` file to version control is a security risk because it may expose sensitive credentials.  
-> In this case study, the `.env` file is included in the repository for simplicity and to ensure the project runs **out of the box** without extra setup steps.  
+> .env was included to facilitate setup, but in a real production environment a proper secrets manager would be used.  
 
 
 
