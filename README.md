@@ -31,21 +31,12 @@ git clone https://github.com/your-username/Beyond-Gravity-Case-Study.git
 cd Beyond-Gravity-Case-Study
 ```
 
-### 2. Create a .env file in the project root to configure database connection:
-```env
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=earthquakes
-POSTGRES_HOST=db
-POSTGRES_PORT=5432
-```
-
-### 3. Build the containers and start the services:
+### 2. Build the containers and start the services:
 ```bash
 docker-compose up --build
 ```
 
-### 4. Access the API
+### 3. Access the API
 - The API will be available at `http://localhost:8000`
 - API documentation (Swagger UI) at `http://localhost:8000/docs`
 - Two endpoints are available:
@@ -55,6 +46,11 @@ docker-compose up --build
     - `start_time`: Start of date range (ISO format)
     - `end_time`: End of date range (ISO format)
   - `GET /earthquakes/{id}`: Get details of a specific earthquake.
+ 
+> **Note on `.env` file**:  
+> Normally, committing a `.env` file to version control is a security risk because it may expose sensitive credentials.  
+> In this case study, the `.env` file is included in the repository for simplicity and to ensure the project runs **out of the box** without extra setup steps.  
+
 
 
 ## Walkthrough
