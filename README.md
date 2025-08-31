@@ -27,8 +27,8 @@ It was built as part of a **Junior Backend case study** for Beyond Gravity.
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/earthquake-api.git
-cd earthquake-api
+git clone https://github.com/your-username/Beyond-Gravity-Case-Study.git
+cd Beyond-Gravity-Case-Study
 ```
 
 ### 2. Create a .env file in the project root to configure database connection:
